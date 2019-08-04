@@ -1,0 +1,33 @@
+/home/hm/myApp/bin/Debug/netcoreapp2.2/myApp.deps.json
+/home/hm/myApp/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.json
+/home/hm/myApp/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.dev.json
+/home/hm/myApp/bin/Debug/netcoreapp2.2/myApp.dll
+/home/hm/myApp/bin/Debug/netcoreapp2.2/myApp.pdb
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.csprojAssemblyReference.cache
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.csproj.CoreCompileInputs.cache
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.AssemblyInfoInputs.cache
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.AssemblyInfo.cs
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.dll
+/home/hm/myApp/obj/Debug/netcoreapp2.2/myApp.pdb
+/home/hm/MyExplorer/bin/Debug/netcoreapp2.2/myApp.deps.json
+/home/hm/MyExplorer/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.json
+/home/hm/MyExplorer/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.dev.json
+/home/hm/MyExplorer/bin/Debug/netcoreapp2.2/myApp.dll
+/home/hm/MyExplorer/bin/Debug/netcoreapp2.2/myApp.pdb
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.csprojAssemblyReference.cache
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.csproj.CoreCompileInputs.cache
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.AssemblyInfoInputs.cache
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.AssemblyInfo.cs
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.dll
+/home/hm/MyExplorer/obj/Debug/netcoreapp2.2/myApp.pdb
+/home/hm/Parts program/MyExplorer/bin/Debug/netcoreapp2.2/myApp.deps.json
+/home/hm/Parts program/MyExplorer/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.json
+/home/hm/Parts program/MyExplorer/bin/Debug/netcoreapp2.2/myApp.runtimeconfig.dev.json
+/home/hm/Parts program/MyExplorer/bin/Debug/netcoreapp2.2/myApp.dll
+/home/hm/Parts program/MyExplorer/bin/Debug/netcoreapp2.2/myApp.pdb
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.csprojAssemblyReference.cache
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.csproj.CoreCompileInputs.cache
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.AssemblyInfoInputs.cache
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.AssemblyInfo.cs
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.dll
+/home/hm/Parts program/MyExplorer/obj/Debug/netcoreapp2.2/myApp.pdb
