@@ -34,16 +34,15 @@ namespace WpfApp1
             {
                 return collDirToCurDir = new MainWindowCommand(obj =>
                 {
-                    //DirectoryInfo dir = obj as DirectoryInfo;
-                    //ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
-                    //foreach (DirectoryInfo d in dir.EnumerateDirectories())
-                    //{
-                    //    // Drive = null;
+                    DirectoryInfo dir = obj as DirectoryInfo;
+                    ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
+                    foreach (DirectoryInfo d in dir.EnumerateDirectories())
+                    {
+                        // Drive = null;
 
-                    //    collection.Add(d);
-                    MessageBox.Show("sss");
-                   // }
-                   // Drive = collection;
+                        collection.Add(d);
+                    }
+                    Drive = collection;
                 });
 
             }
