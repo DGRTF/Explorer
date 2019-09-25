@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1
 {
-    public partial class MainWindowViewModel : Component
+    public partial class MainWindowViewModel1 : Component
     {
         //public MainWindowViewModel()
         //{

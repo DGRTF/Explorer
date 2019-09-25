@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace WpfApp1
 {
-    public class ExplorerCommand : ICommand
+    public class MainWindowCommand : ICommand
     {
         private Action<object> execute;
         private Func<object, bool> canExecute;
@@ -14,7 +14,7 @@ namespace WpfApp1
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public ExplorerCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public MainWindowCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;

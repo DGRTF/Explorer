@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using Explorer;
 using System.IO;
-
+using System.Windows;
 
 namespace WpfApp1
 {
@@ -16,6 +16,25 @@ namespace WpfApp1
 
 
 
+        private ObservableCollection<DirectoryInfo> drive;
+
+
+
+        public ObservableCollection<DirectoryInfo> Drive
+        {
+            get
+            {
+                return drive;
+            }
+            set
+            {
+                drive = value;
+                OnPropertyChanged("Drive");
+            }
+        }
+
+
+
         private ExplorerCommand collDirToCurDir;
 
 
@@ -24,25 +43,43 @@ namespace WpfApp1
         {
             get
             {
-                return collDirToCurDir = new ExplorerCommand(obj =>
+                return collDirToCurDir ?? (collDirToCurDir = new ExplorerCommand(obj =>
                 {
                     DirectoryInfo dir = obj as DirectoryInfo;
                     ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
                     foreach (DirectoryInfo d in dir.EnumerateDirectories())
                     {
-                        // Drive = null;
-
                         collection.Add(d);
-
                     }
                     Drive = collection;
-                });
+                }));
 
             }
         }
 
 
-        public ObservableCollection<DirectoryInfo> Drive { get; set; }
+        private ExplorerCommand c;
+
+
+
+        public ExplorerCommand C   //return collection directories in current directory
+        {
+            get
+            {
+                return c ?? (c = new ExplorerCommand(obj =>
+                {
+                    foreach (DirectoryInfo d in Drive)
+                    {
+                        MessageBox.Show(d.Name);
+                    }
+                }));
+
+            }
+        }
+
+
+
+        // private DirectoryInfo drive;
 
 
 
