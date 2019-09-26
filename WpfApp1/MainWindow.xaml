@@ -61,40 +61,47 @@
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="5"/>
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="2"/>
                 </Grid.ColumnDefinitions>
-                <Grid>
+                <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="2"/>
                         <RowDefinition/>
-                        <RowDefinition />
+                        <RowDefinition Height="2"/>
                     </Grid.RowDefinitions>
-                    <ListBox BorderBrush="Transparent" Background="DarkSlateGray" Grid.Row="0"  ItemsSource="{Binding Explorer.Drive}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel >
-                                    <Button Background="DarkGray" CommandParameter="{Binding}" Command="{Binding DataContext.Explorer.CollDirToCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource But}" FontSize="18" Content="{Binding Path=Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Row="1" Content="dff"  Command="{Binding Explorer.C}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="Gray">
+                            <Button  Content="df" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
+                        </Grid>
+                        <Button Grid.Row="2" Content="dff" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="200" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <GridSplitter BorderBrush="Transparent" Background="Gray" Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+                            <ListBox BorderBrush="Transparent" Background="DarkSlateGray" Grid.Column="2"  ItemsSource="{Binding Explorer.Drive}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel >
+                                            <Button Background="DarkGray" CommandParameter="{Binding}" Command="{Binding DataContext.Explorer.CollDirToCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource But}" FontSize="18" Content="{Binding Path=Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
-        <!--<Rectangle  Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Right"
-            Cursor="SizeWE" Fill="Transparent"
-            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"
-            MouseMove="Rectangle_MouseMove"></Rectangle>
-        <Rectangle  Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-            Cursor="SizeNS" Fill="Transparent"
-            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp"
-            MouseMove="Rectangle_MouseMove1"></Rectangle>-->
-
     </Grid>
+
 </Window>
