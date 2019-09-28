@@ -62,10 +62,11 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="2"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
                         <RowDefinition/>
@@ -74,20 +75,22 @@
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25" />
+                            <RowDefinition Height="2" />
                             <RowDefinition/>
+                            <RowDefinition Height="2" />
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Background="Gray">
-                            <Button  Content="df" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
+                        <Grid Grid.Row="0" Background="DarkGray">
+                            <Button x:Name="backBut"  Content="Back" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "False" Command="{Binding Explorer.Back}"/>
                         </Grid>
-                        <Button Grid.Row="2" Content="dff" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
-                        <Grid Grid.Row="1">
+                        <Button Grid.Row="4" Content="dff" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
+                        <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition MinWidth="200" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <GridSplitter BorderBrush="Transparent" Background="Gray" Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+                            <GridSplitter BorderBrush="Transparent" Background="DarkGray" Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                             <ListBox BorderBrush="Transparent" Background="DarkSlateGray" Grid.Column="2"  ItemsSource="{Binding Explorer.Drive}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>

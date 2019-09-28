@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Explorer;
 using System.IO;
 using System.Windows;
+using WpfApp1;
 
 namespace WpfApp1
 {
@@ -17,6 +18,68 @@ namespace WpfApp1
 
 
         private ObservableCollection<DirectoryInfo> drive;
+
+
+        private ExplorerCommand back;
+
+
+
+        public ExplorerCommand Back
+        {
+            get
+            {
+                return back = new ExplorerCommand(obj =>
+                {
+                    //MessageBox.Show("fff1");
+                    DirectoryInfo dir = obj as DirectoryInfo;
+                    ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
+
+
+                    if (dir.Parent != null)
+                    {
+                        dir = dir.Parent;
+                        foreach (DirectoryInfo d in dir.EnumerateDirectories())
+                        {
+                            collection.Add(d);
+                        }
+                        
+                        foreach (Window window in Application.Current.Windows)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+                                if (dir.Parent != null)
+                                {
+                                    (window as MainWindow).backBut.CommandParameter = dir.Parent;
+                                    //                           MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
+                                }
+                                else
+                                    (window as MainWindow).backBut.CommandParameter = dir;
+                            }
+                            Drive = collection;
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (Window window in Application.Current.Windows)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+
+                                (window as MainWindow).backBut.IsEnabled = false;
+                            }
+                            
+                        }
+                        collection.Add(dir);
+                        Drive = collection;
+                    }
+                    
+
+                   
+                });
+            }
+        }
+
 
 
 
@@ -45,6 +108,7 @@ namespace WpfApp1
             {
                 return collDirToCurDir ?? (collDirToCurDir = new ExplorerCommand(obj =>
                 {
+                   // MessageBox.Show("fff");
                     DirectoryInfo dir = obj as DirectoryInfo;
                     ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
                     foreach (DirectoryInfo d in dir.EnumerateDirectories())
@@ -52,6 +116,17 @@ namespace WpfApp1
                         collection.Add(d);
                     }
                     Drive = collection;
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (window.GetType() == typeof(MainWindow))
+                        {
+                           /// MessageBox.Show("fff");
+                            (window as MainWindow).backBut.CommandParameter = dir;
+                            (window as MainWindow).backBut.IsEnabled = true;
+                            /// MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
+                        }
+                    }
+
                 }));
 
             }
