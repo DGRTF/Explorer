@@ -20,79 +20,60 @@ namespace WpfApp1
     {
 
 
-
-        private ObservableCollection<FileSystemInfo> drive;
-
+        //Properties and field:
 
 
-        //public void EnterPath(object sender, KeyEventArgs a)                         //Enter Path
-        //{
-        //    if (a.Key == Key.Enter)
-        //    {
-        //        TextBox t = sender as TextBox;
-        //        DirectoryInfo dir = new DirectoryInfo(t.Text);
-        //        try
-        //        {
-        //            // MessageBox.Show("fff");
-        //            ObservableCollection<FileSystemInfo> collection = new ObservableCollection<FileSystemInfo>();
-        //            foreach (DirectoryInfo d in dir.EnumerateDirectories())
-        //            {
-        //                collection.Add(d);
-        //            }
-        //            Drive = collection;
+
+        private bool enabledBut=false;  //Parameter readiness button
+        public bool EnabledBut
+        {
+            get
+            {
+                return enabledBut;
+            }
+            set
+            {
+                enabledBut = value;
+                OnPropertyChanged("EnabledBut");
+            }
+        }
 
 
-        //            foreach (FileInfo d in dir.EnumerateFiles())
-        //            {
-        //                Drive.Add(d);
-        //            }
-        //            // Files = collection;
 
-        //            foreach (Window window in Application.Current.Windows)
-        //            {
-        //                if (window.GetType() == typeof(MainWindow))
-        //                {
-        //                    /// MessageBox.Show("fff");
-        //                    (window as MainWindow).backBut.CommandParameter = dir;
-        //                    (window as MainWindow).backBut.IsEnabled = true;
-        //                    /// MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
-        //                }
-        //            }
-        //            foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-        //            {
-        //                if (window.GetType() == typeof(MainWindow))
-        //                {
-        //                    (window as MainWindow).textPath.Text = dir.FullName;
-        //                }
-        //            }
-        //        }
-        //        catch (DirectoryNotFoundException e)
-        //        {
-        //            MessageBox.Show(e.Message);
-        //        }
-        //        catch (SecurityException e)
-        //        {
-        //            MessageBox.Show(e.Message);
-        //        }
-        //        catch (UnauthorizedAccessException e)
-        //        {
-        //            MessageBox.Show(e.Message);
-        //        }
-        //        catch
-        //        {
-        //            MessageBox.Show("Unknown error");
-        //        }
-        //    }
-        //}
+        private DirectoryInfo parameter;   //general parameter commands for manage directoties
+        public DirectoryInfo Parameter
+        {
+            get
+            {
+                return parameter;
+            }
+            set
+            {
+                parameter = value;
+                OnPropertyChanged("Parameter");
+            }
+        }
 
 
+        
+        //Commands:
+        private ExplorerCommand collDirInCurDir;
+        public ExplorerCommand CollDirInCurDir    //return collection directories in current directory
+        {
+            get
+            {
+                return collDirInCurDir ?? (collDirInCurDir = new ExplorerCommand(obj =>
+                {
+                    OpenDirecrory(obj);
+
+                }));
+
+            }
+        }
 
 
 
         private ExplorerCommand back;
-
-
-
         public ExplorerCommand Back
         {
             get
@@ -106,32 +87,47 @@ namespace WpfApp1
 
 
 
+        private ExplorerCommand refresh;
+        public ExplorerCommand Refresh   //Command for button to refresh current direcrory
+        {
+            get
+            {
+                return refresh = new ExplorerCommand(obj =>
+                {
+                    if (obj != null)
+                    {
+                        if ((obj as DirectoryInfo).Parent == null)
+                        {
+                            Initialize();
+                        }
+                        else
+                            OpenDirecrory(obj);
+                    }
+                    else
+                        Initialize();
+                });
+            }
+        }
+
+
+
+        //Collections:
+
+
         public ObservableCollection<FileSystemInfo> Drive { get; } = new ObservableCollection<FileSystemInfo>();
 
 
 
-        private ExplorerCommand collDirToCurDir;
+
+        //Methods:
 
 
-
-        public ExplorerCommand CollDirToCurDir    //return collection directories in current directory
-        {
-            get
-            {
-                return collDirToCurDir ?? (collDirToCurDir = new ExplorerCommand(obj =>
-                {
-                    OpenDirecrory(obj);
-
-                }));
-
-            }
-        }
 
 
         public void Initialize()
         {
             SearchDriver search = new SearchDriver();
-
+            Drive.Clear();
             foreach (DirectoryInfo d in search.SearchParrentDirectory())
             {
                 Drive.Add(d);
@@ -146,35 +142,24 @@ namespace WpfApp1
             {
 
                 DirectoryInfo dir = obj as DirectoryInfo;
-                IEnumerable<DirectoryInfo> dire = dir.EnumerateDirectories();
+                IEnumerable<DirectoryInfo> dire = dir.EnumerateDirectories();  //add directories
                 Drive.Clear();
                 foreach (DirectoryInfo d in dire)
                 {
 
                     Drive.Add(d);
-                }
-
-
-                foreach (FileInfo d in dir.EnumerateFiles())
+                }       
+                
+                foreach (FileInfo d in dir.EnumerateFiles())  //add files
                 {
                     Drive.Add(d);
                 }
 
-                foreach (Window window in Application.Current.Windows)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).backBut.CommandParameter = dir;
-                        (window as MainWindow).backBut.IsEnabled = true;
-                    }
-                }
-                foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).textPath.Text = dir.FullName;
-                    }
-                }
+                Parameter = dir;
+
+                EnabledBut = true;
+              
+
             }
             catch (DirectoryNotFoundException e)
             {
@@ -216,41 +201,13 @@ namespace WpfApp1
                 {
                     Drive.Add(d);
                 }
-
-                foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).backBut.CommandParameter = dir;
-                    }
-                }
-                foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).textPath.Text = dir.FullName;
-                    }
-                }
+                Parameter = dir;    
 
             }
             else
             {
-                foreach (Window window in Application.Current.Windows)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-
-                        (window as MainWindow).backBut.IsEnabled = false;
-                    }
-
-                }
-                foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-                {
-                    if (window.GetType() == typeof(MainWindow))
-                    {
-                        (window as MainWindow).textPath.Text = "";
-                    }
-                }
+                EnabledBut = false;              
+                Parameter = null;
                 Drive.Clear();
                 Drive.Add(dir);
 
@@ -258,12 +215,15 @@ namespace WpfApp1
         }
 
 
-
+        //Construcrors:
         public ExplorerViewModel()
         {
             Initialize();
         }
 
+
+
+        //Over:
 
 
         public event PropertyChangedEventHandler PropertyChanged;
