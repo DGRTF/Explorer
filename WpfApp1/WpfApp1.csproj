@@ -70,13 +70,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MainWindowCommand.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="ExplorerViewModel.cs" />
-    <Compile Include="ExplorerCommand.cs" />
-    <Compile Include="Namespace Explorer\Equals.cs" />
-    <Compile Include="Namespace Explorer\Explorer.cs" />
-    <Compile Include="Namespace Explorer\FastSortCompare.cs" />
+    <Compile Include="ViewModel\Command\MainWindowCommand.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\ExplorerViewModel.cs" />
+    <Compile Include="ViewModel\Command\ExplorerCommand.cs" />
+    <Compile Include="Model\Namespace Explorer\Equals.cs" />
+    <Compile Include="Model\Namespace Explorer\Explorer.cs" />
+    <Compile Include="Model\Namespace Explorer\FastSortCompare.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -127,6 +127,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

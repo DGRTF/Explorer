@@ -86,7 +86,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Button x:Name="backBut" Grid.Column="0" Content="Back" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "False" Command="{Binding Explorer.Back}"/>
-                            <TextBox Name="textPath" Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray"  Text=""/>
+                            <TextBox Name="textPath" Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray" KeyUp="EnterPath"  Text=""/>
                         </Grid>
                         <Button Grid.Row="4" Content="dff" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
                         <Grid Grid.Row="2">
@@ -111,5 +111,4 @@
             </Grid>
         </Grid>
     </Grid>
-
 </Window>
