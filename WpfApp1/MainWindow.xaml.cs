@@ -37,58 +37,7 @@ namespace WpfApp1
             {
                 TextBox t = sender as TextBox;
                 DirectoryInfo dir = new DirectoryInfo(t.Text);
-                try
-                {
-                    // MessageBox.Show("fff");
-                    exp.Drive.Clear();
-                    foreach (DirectoryInfo d in dir.EnumerateDirectories())
-                    {
-                        
-                        exp.Drive.Add(d);
-                    }
-                    
-
-
-                    foreach (FileInfo d in dir.EnumerateFiles())
-                    {
-                        exp.Drive.Add(d);
-                    }
-                    // Files = collection;
-
-                    foreach (Window window in Application.Current.Windows)
-                    {
-                        if (window.GetType() == typeof(MainWindow))
-                        {
-                            /// MessageBox.Show("fff");
-                            (window as MainWindow).backBut.CommandParameter = dir;
-                            (window as MainWindow).backBut.IsEnabled = true;
-                            /// MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
-                        }
-                    }
-                    foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
-                    {
-                        if (window.GetType() == typeof(MainWindow))
-                        {
-                            (window as MainWindow).textPath.Text = dir.FullName;
-                        }
-                    }
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-                catch (SecurityException e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-                catch
-                {
-                    MessageBox.Show("Unknown error");
-                }
+                exp.OpenDirecrory(dir);
             }
         }
 
