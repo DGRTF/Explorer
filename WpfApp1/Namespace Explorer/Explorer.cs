@@ -61,17 +61,27 @@ namespace Explorer
             return b.GetDirectories(a);
         }
     }
+
+
+
+
+
+
+
+
+
+
     class SearchDriver
     {
         public DirectoryInfo[] SearchParrentDirectory()//Return array Parent directory at devise
         {
             DirectoryInfo[] dire = new DirectoryInfo[0];
 
-            foreach (DriveInfo n in DriveInfo.GetDrives())
+            foreach (DriveInfo n in DriveInfo.GetDrives())                                            //Return all drive
             {
                 if (n.IsReady)
                 {
-                    if (n.TotalSize != 0)
+                    if (n.TotalSize != 0)                                     //if TotalSize is do not equals zero
                     {
                         Array.Resize(ref dire, dire.Length + 1);
                         dire[dire.Length - 1] = new DirectoryInfo(n.Name);
@@ -80,7 +90,7 @@ namespace Explorer
             }
             for (int i = 0; i < dire.Length; i++)
             {
-                dire[i] = dire[i].Root;
+                dire[i] = dire[i].Root;                                       //Root directory for drive
                 // while (dire[i].Parent != null)
                 // {
                 //     dire[i] = dire[i].Parent;
@@ -88,7 +98,7 @@ namespace Explorer
                 // }
             }
             ParentDirectory<DirectoryInfo> par = new ParentDirectory<DirectoryInfo>();
-            dire = par.ParDire(dire, new EquateI());
+            dire = par.ParDire(dire, new EquateI());                                                        //remove and root directory from the array if there is one similar to it
             DriveInfo[] drive = new DriveInfo[dire.Length];
             foreach (DirectoryInfo dir in par.ParDire(dire, new EquateI()))
             {
@@ -96,7 +106,7 @@ namespace Explorer
                 drive[i] = new DriveInfo(dir.Name);
                 i++;
             }
-            Sort<DriveInfo> sort = new Sort<DriveInfo>();
+            Sort<DriveInfo> sort = new Sort<DriveInfo>();                                                   //Fast sort(TotalSize)
             drive = sort.FastSort(drive, new Comparison());
             dire = new DirectoryInfo[0];
             foreach (DriveInfo n in drive)
@@ -107,4 +117,56 @@ namespace Explorer
             return dire;
         }
     }
+
+
+
+    class SearchDriver1
+    {
+        public DirectoryInfo[] SearchParrentDirectory()//Return array Parent directory at devise
+        {
+            DirectoryInfo[] dire = new DirectoryInfo[0];
+
+            foreach (DriveInfo n in DriveInfo.GetDrives())                                            //Return all drive
+            {
+                if (n.IsReady)
+                {
+                    if (n.TotalSize != 0)                                     //if TotalSize is do not equals zero
+                    {
+                        Array.Resize(ref dire, dire.Length + 1);
+                        dire[dire.Length - 1] = new DirectoryInfo(n.Name);
+                    }
+                }
+            }
+            for (int i = 0; i < dire.Length; i++)
+            {
+                dire[i] = dire[i].Root;                                       //Root directory for drive
+                // while (dire[i].Parent != null)
+                // {
+                //     dire[i] = dire[i].Parent;
+
+                // }
+            }
+            ParentDirectory<DirectoryInfo> par = new ParentDirectory<DirectoryInfo>();
+            dire = par.ParDire(dire, new EquateI());                                                        //remove and root directory from the array if there is one similar to it
+            DriveInfo[] drive = new DriveInfo[dire.Length];
+            foreach (DirectoryInfo dir in dire)
+            {
+                int i = 0;
+                drive[i] = new DriveInfo(dir.Name);
+                i++;
+            }
+            Sort<DriveInfo> sort = new Sort<DriveInfo>();                                                   //Fast sort(TotalSize)
+            drive = sort.FastSort(drive, new Comparison());
+            dire = new DirectoryInfo[0];
+            foreach (DriveInfo n in drive)
+            {
+                Array.Resize(ref dire, dire.Length + 1);
+                dire[dire.Length - 1] = new DirectoryInfo(n.Name);
+            }
+            return dire;
+        }
+    }
+
+
+
 }

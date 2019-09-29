@@ -3,7 +3,7 @@ using System.IO;
 
 
 
-namespace Equals
+namespace Equals                                                     //Equals both object and remove an object from the array if there is one similar to it
 {
 
 
@@ -14,7 +14,7 @@ namespace Equals
 
         public class EquateI : IEquals<DirectoryInfo>
         {
-            public bool Equate(DirectoryInfo a, DirectoryInfo o)
+            public bool Equate(DirectoryInfo a, DirectoryInfo o)                              //Equals both object
             {
                 if (a.Name == o.Name)
                     return true;
@@ -25,8 +25,8 @@ namespace Equals
 
         public class ParentDirectory<T>
         {
-            public T[] ParDire(T[] dire, IEquals<T> a)
-            {
+            public T[] ParDire(T[] dire, IEquals<T> a)                                     //remove an object from the array if there is one similar to it
+        {
                 if (dire.Length != 1)
                 {
                     T[] directory = new T[0];

@@ -81,14 +81,19 @@
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Background="DarkGray">
-                            <Button x:Name="backBut"  Content="Back" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "False" Command="{Binding Explorer.Back}"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="backBut" Grid.Column="0" Content="Back" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "False" Command="{Binding Explorer.Back}"/>
+                            <TextBox Name="textPath" Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray"  Text=""/>
                         </Grid>
                         <Button Grid.Row="4" Content="dff" Template="{StaticResource But}" Command="{Binding Explorer.C}"/>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="200" />
+                                <ColumnDefinition Width="200" MinWidth="200" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition/>
+                                <ColumnDefinition MinWidth="200"/>
                             </Grid.ColumnDefinitions>
                             <GridSplitter BorderBrush="Transparent" Background="DarkGray" Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                             <ListBox BorderBrush="Transparent" Background="DarkSlateGray" Grid.Column="2"  ItemsSource="{Binding Explorer.Drive}">

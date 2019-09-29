@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Explorer;
+using System;
 using System.Collections.ObjectModel;
-using Explorer;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Security;
 using System.Windows;
-using WpfApp1;
 
 namespace WpfApp1
 {
@@ -17,7 +18,9 @@ namespace WpfApp1
 
 
 
-        private ObservableCollection<DirectoryInfo> drive;
+        private ObservableCollection<FileSystemInfo> drive;
+
+
 
 
         private ExplorerCommand back;
@@ -32,32 +35,37 @@ namespace WpfApp1
                 {
                     //MessageBox.Show("fff1");
                     DirectoryInfo dir = obj as DirectoryInfo;
-                    ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
+                    ObservableCollection<FileSystemInfo> collection = new ObservableCollection<FileSystemInfo>();
 
 
-                    if (dir.Parent != null)
+                    if (dir.Parent != null)                                           //if parent directory is
                     {
-                        dir = dir.Parent;
-                        foreach (DirectoryInfo d in dir.EnumerateDirectories())
+                        dir = dir.Parent;                                             //
+                        foreach (DirectoryInfo d in dir.EnumerateDirectories())       //add directory
                         {
                             collection.Add(d);
                         }
-                        
-                        foreach (Window window in Application.Current.Windows)
+
+                        foreach (FileInfo d in dir.EnumerateFiles())                  //add files
+                        {
+                            collection.Add(d);
+                        }
+
+                        foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
                         {
                             if (window.GetType() == typeof(MainWindow))
                             {
-                                if (dir.Parent != null)
-                                {
-                                    (window as MainWindow).backBut.CommandParameter = dir.Parent;
-                                    //                           MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
-                                }
-                                else
                                     (window as MainWindow).backBut.CommandParameter = dir;
                             }
-                            Drive = collection;
                         }
-
+                        foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+                                (window as MainWindow).textPath.Text = dir.FullName;
+                            }
+                        }
+                        Drive = collection;
                     }
                     else
                     {
@@ -68,22 +76,47 @@ namespace WpfApp1
 
                                 (window as MainWindow).backBut.IsEnabled = false;
                             }
-                            
+
+                        }
+                        foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+                                (window as MainWindow).textPath.Text = "";
+                            }
                         }
                         collection.Add(dir);
                         Drive = collection;
                     }
-                    
 
-                   
+
+
                 });
             }
         }
 
 
 
+        //private ObservableCollection<FileInfo> files;
 
-        public ObservableCollection<DirectoryInfo> Drive
+
+        //public ObservableCollection<FileInfo> Files
+        //{
+        //    get
+        //    {
+        //        return files;
+        //    }
+        //    set
+        //    {
+        //        files = value;
+        //        OnPropertyChanged("Files");
+        //    }
+        //}
+
+
+
+
+        public ObservableCollection<FileSystemInfo> Drive
         {
             get
             {
@@ -108,25 +141,58 @@ namespace WpfApp1
             {
                 return collDirToCurDir ?? (collDirToCurDir = new ExplorerCommand(obj =>
                 {
-                   // MessageBox.Show("fff");
-                    DirectoryInfo dir = obj as DirectoryInfo;
-                    ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
-                    foreach (DirectoryInfo d in dir.EnumerateDirectories())
+                    try
                     {
-                        collection.Add(d);
-                    }
-                    Drive = collection;
-                    foreach (Window window in Application.Current.Windows)
-                    {
-                        if (window.GetType() == typeof(MainWindow))
+                        // MessageBox.Show("fff");
+                        DirectoryInfo dir = obj as DirectoryInfo;
+                        ObservableCollection<FileSystemInfo> collection = new ObservableCollection<FileSystemInfo>();
+                        foreach (DirectoryInfo d in dir.EnumerateDirectories())
                         {
-                           /// MessageBox.Show("fff");
-                            (window as MainWindow).backBut.CommandParameter = dir;
-                            (window as MainWindow).backBut.IsEnabled = true;
-                            /// MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
+                            collection.Add(d);
+                        }
+                        Drive = collection;
+
+                        //  ObservableCollection<FileInfo> collectionfiles = new ObservableCollection<FileInfo>();
+                        foreach (FileInfo d in dir.EnumerateFiles())
+                        {
+                            Drive.Add(d);
+                        }
+                        // Files = collection;
+
+                        foreach (Window window in Application.Current.Windows)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+                                /// MessageBox.Show("fff");
+                                (window as MainWindow).backBut.CommandParameter = dir;
+                                (window as MainWindow).backBut.IsEnabled = true;
+                                /// MessageBox.Show((window as MainWindow).backBut.CommandParameter.ToString());
+                            }
+                        }
+                        foreach (Window window in Application.Current.Windows)          //Search our button to Name (backBut)
+                        {
+                            if (window.GetType() == typeof(MainWindow))
+                            {
+                                (window as MainWindow).textPath.Text = dir.FullName;
+                            }
                         }
                     }
-
+                    catch (DirectoryNotFoundException e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                    catch (SecurityException e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Unknown error");
+                    }
                 }));
 
             }
@@ -163,7 +229,7 @@ namespace WpfApp1
 
             SearchDriver search = new SearchDriver();
 
-            ObservableCollection<DirectoryInfo> collection = new ObservableCollection<DirectoryInfo>();
+            ObservableCollection<FileSystemInfo> collection = new ObservableCollection<FileSystemInfo>();
 
             foreach (DirectoryInfo d in search.SearchParrentDirectory())
             {
