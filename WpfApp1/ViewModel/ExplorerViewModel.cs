@@ -111,6 +111,21 @@ namespace WpfApp1
 
 
 
+        private ExplorerCommand home;
+        public ExplorerCommand Home
+        {
+            get
+            {
+                return refresh = new ExplorerCommand(obj =>
+                {
+                    Initialize();
+                    Parameter = null;
+                    EnabledBut = false;
+                });
+            }
+        }
+
+
         //Collections:
 
 

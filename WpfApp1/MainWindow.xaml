@@ -86,6 +86,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="25"/>
                             </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="Home" CommandParameter="{Binding Explorer.Parameter}" Width="40" HorizontalAlignment="Center" Template="{StaticResource But}" IsEnabled = "{Binding Explorer.EnabledBut}" Command="{Binding Explorer.Home}"/>
                             <Button x:Name="backBut" Grid.Column="0" Content="Back" CommandParameter="{Binding Explorer.Parameter}" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "{Binding Explorer.EnabledBut}" Command="{Binding Explorer.Back}"/>
                             <TextBox Name="textPath" Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray" KeyUp="EnterPath"  Text="{Binding Explorer.Parameter.FullName  , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <Button Grid.Column="2" Content="R" Template="{StaticResource But}" CommandParameter="{Binding Explorer.Parameter}" Command="{Binding Explorer.Refresh}"/>
