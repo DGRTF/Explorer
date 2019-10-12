@@ -84,12 +84,19 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120"/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition Width="25"/>
+        
                             </Grid.ColumnDefinitions>
                             <Button Grid.Column="0" Content="Home" CommandParameter="{Binding Explorer.Parameter}" Width="40" HorizontalAlignment="Center" Template="{StaticResource But}" IsEnabled = "{Binding Explorer.EnabledBut}" Command="{Binding Explorer.Home}"/>
                             <Button x:Name="backBut" Grid.Column="0" Content="Back" CommandParameter="{Binding Explorer.Parameter}" Width="40" HorizontalAlignment="Left" Template="{StaticResource But}" IsEnabled = "{Binding Explorer.EnabledBut}" Command="{Binding Explorer.Back}"/>
-                            <TextBox Name="textPath" Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray" KeyUp="EnterPath"  Text="{Binding Explorer.Parameter.FullName  , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Button Grid.Column="2" Content="R" Template="{StaticResource But}" CommandParameter="{Binding Explorer.Parameter}" Command="{Binding Explorer.Refresh}"/>
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="400"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Name="textPath" Grid.Column="0" Foreground="DarkGray" Background="DarkSlateGray" KeyUp="EnterPath"  Text="{Binding Explorer.Parameter.FullName  , Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox  Grid.Column="1" Foreground="DarkGray" Background="DarkSlateGray" KeyUp="EnterSearch" />
+                                <Button Grid.Column="1" Width="25" HorizontalAlignment="Right" Content="R" Template="{StaticResource But}" CommandParameter="{Binding Explorer.Parameter}" Command="{Binding Explorer.Refresh}"/>
+                            </Grid>
                         </Grid>
                         <Button Grid.Row="4" Content="dff" Template="{StaticResource But}"  Command="{Binding Explorer.C}"/>
                         <Grid Grid.Row="2">
@@ -98,6 +105,15 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition MinWidth="200"/>
                             </Grid.ColumnDefinitions>
+                            <Grid>
+                                <TreeView x:Name="treeView1" ItemsSource="{Binding Explorer.DriveHier}" >
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Path=DriveH}">
+                                            <TextBlock Text="{Binding Drive.Name}" />
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+                            </Grid>
                             <GridSplitter BorderBrush="Transparent" Background="DarkGray" Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                             <ListBox BorderBrush="Transparent" Background="DarkSlateGray" Grid.Column="2"  ItemsSource="{Binding Explorer.Drive}">
                                 <ListBox.ItemTemplate>

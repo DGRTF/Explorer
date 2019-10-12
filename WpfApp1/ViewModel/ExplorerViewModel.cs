@@ -9,6 +9,7 @@ using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WpfApp1.Hierarchy;
 
 namespace WpfApp1
 {
@@ -127,6 +128,7 @@ namespace WpfApp1
 
 
         //Collections:
+        public ObservableCollection<HierarchyDrive> DriveHier { get; set; } = new ObservableCollection<HierarchyDrive>();
 
 
         public ObservableCollection<FileSystemInfo> Drive { get; } = new ObservableCollection<FileSystemInfo>();
@@ -203,7 +205,7 @@ namespace WpfApp1
             //MessageBox.Show("fff1");
             DirectoryInfo dir = obj as DirectoryInfo;
 
-            if (dir.Parent != null)                                           //if parent directory is
+            if (dir.Parent != null)                                           //if parent directory is exist
             {
                 dir = dir.Parent;
                 Drive.Clear();
@@ -230,10 +232,28 @@ namespace WpfApp1
         }
 
 
+
+        private void InitHierarchy()
+        {
+            SearchDriver search = new SearchDriver();
+            try
+            {
+                foreach (DirectoryInfo d in search.SearchParrentDirectory())
+                    DriveHier.Add(new HierarchyDrive(d));
+            }
+            catch
+            {
+
+            }
+        }
+
+
+
         //Construcrors:
         public ExplorerViewModel()
         {
             Initialize();
+            InitHierarchy();
         }
 
 
