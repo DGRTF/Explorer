@@ -11,22 +11,31 @@ namespace WpfApp1.Hierarchy
 {
     public class HierarchyDrive
     {
-        public HierarchyDrive(DirectoryInfo dir)
+        public HierarchyDrive(FileInfo i)
+        {
+            Drive = i;
+        }
+        public HierarchyDrive(FileSystemInfo dir)
         {
             Drive = dir;
             AddDrive(Drive);
         }
-        public DirectoryInfo Drive { get; set; }
+        public FileSystemInfo Drive { get; set; }
 
         public ObservableCollection<HierarchyDrive> DriveH { get; set; } = new ObservableCollection<HierarchyDrive>();
 
-        public void AddDrive(DirectoryInfo dir)
+        public void AddDrive(FileSystemInfo dir)
         {
             try
             {
-                foreach (DirectoryInfo d in dir.EnumerateDirectories())
+                DirectoryInfo drive = dir as DirectoryInfo;
+                foreach (DirectoryInfo d in drive.EnumerateDirectories())
                 {
                     DriveH.Add(new HierarchyDrive(d));
+                }
+                foreach (FileInfo f in drive.EnumerateFiles())
+                {
+                    DriveH.Add(new HierarchyDrive(f));
                 }
             }
             catch (DirectoryNotFoundException e)
@@ -39,7 +48,7 @@ namespace WpfApp1.Hierarchy
             }
             catch (UnauthorizedAccessException e)
             {
-               // MessageBox.Show(e.Message);
+                //MessageBox.Show(e.Message);
             }
             catch
             {
