@@ -11,6 +11,10 @@ namespace WpfApp1.Hierarchy
 {
     public class HierarchyDrive
     {
+        public HierarchyDrive()
+        { 
+        
+        }
         public HierarchyDrive(FileInfo i)
         {
             Drive = i;

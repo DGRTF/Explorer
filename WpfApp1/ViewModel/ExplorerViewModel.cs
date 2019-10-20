@@ -25,7 +25,7 @@ namespace WpfApp1
 
 
 
-        private bool enabledBut=false;  //Parameter readiness button
+        private bool enabledBut = false;  //Parameter readiness button
         public bool EnabledBut
         {
             get
@@ -56,7 +56,7 @@ namespace WpfApp1
         }
 
 
-        
+
         //Commands:
         private ExplorerCommand collDirInCurDir;
         public ExplorerCommand CollDirInCurDir    //return collection directories in current directory
@@ -97,12 +97,19 @@ namespace WpfApp1
                 {
                     if (obj != null)
                     {
-                        if ((obj as DirectoryInfo).Parent == null)
+                        OpenDirecrory(obj);
+
+                        ObservableCollection<HierarchyDrive> D = new ObservableCollection<HierarchyDrive>();
+                        foreach (HierarchyDrive h in DriveHier)
                         {
-                            Initialize();
+                            D.Add(h);
                         }
-                        else
-                            OpenDirecrory(obj);
+
+                        DriveHier.Clear();
+                        foreach (HierarchyDrive h in SearchDirectoryInHier(D, (obj as FileSystemInfo)))
+                        {
+                            DriveHier.Add(h);
+                        }
                     }
                     else
                         Initialize();
@@ -125,6 +132,8 @@ namespace WpfApp1
                 });
             }
         }
+
+
 
 
         //Collections:
@@ -165,8 +174,8 @@ namespace WpfApp1
                 {
 
                     Drive.Add(d);
-                }       
-                
+                }
+
                 foreach (FileInfo d in dir.EnumerateFiles())  //add files
                 {
                     Drive.Add(d);
@@ -175,7 +184,7 @@ namespace WpfApp1
                 Parameter = dir;
 
                 EnabledBut = true;
-              
+
 
             }
             catch (DirectoryNotFoundException e)
@@ -218,12 +227,12 @@ namespace WpfApp1
                 {
                     Drive.Add(d);
                 }
-                Parameter = dir;    
+                Parameter = dir;
 
             }
             else
             {
-                EnabledBut = false;              
+                EnabledBut = false;
                 Parameter = null;
                 Drive.Clear();
                 Drive.Add(dir);
@@ -245,6 +254,163 @@ namespace WpfApp1
             {
 
             }
+        }
+
+
+
+        public ObservableCollection<HierarchyDrive> SearchDirectoryInHier(ObservableCollection<HierarchyDrive> hier, FileSystemInfo dir, List<FileSystemInfo> list = null)
+        {
+            DirectoryInfo dit = (dir as DirectoryInfo);
+
+            if (list == null)
+            {
+                DirectoryInfo d = dit;
+                list = new List<FileSystemInfo>//collection parent directory
+                    {
+                        d
+                    };
+                while (d.Parent != null)
+                {
+                    d = d.Parent;
+                    list.Add(d);
+                }
+            }
+
+            List<FileSystemInfo> listm = new List<FileSystemInfo>();
+            foreach (FileSystemInfo f in list)
+            {
+                listm.Add(f);
+            }
+
+            ObservableCollection<HierarchyDrive> hierm = new ObservableCollection<HierarchyDrive>();
+            foreach (HierarchyDrive h in hier)
+            {
+                hierm.Add(h);
+            }
+
+            foreach (FileSystemInfo di in list)
+            {
+                foreach (HierarchyDrive hh in hier)
+                {
+                    if (di.FullName == hh.Drive.FullName)
+                    {
+                        listm.Remove(di);
+
+                        if (listm.Count == 0)
+                        {
+                            List<FileSystemInfo> id = new List<FileSystemInfo>();//collection
+
+                            foreach (HierarchyDrive hi in hh.DriveH)
+                            {
+                                id.Add(hi.Drive);
+                            }
+
+                            List<FileSystemInfo> idm = new List<FileSystemInfo>();
+                            foreach (FileSystemInfo f in id)
+                            {
+                                idm.Add(f);
+                            }
+
+
+                            List<FileSystemInfo> i = new List<FileSystemInfo>();//fact collection
+
+                            foreach (DirectoryInfo info in (di as DirectoryInfo).EnumerateDirectories())//Initialize fact collection(Directories)
+                            {
+                                i.Add(info);
+                            }
+
+                            foreach (FileSystemInfo f in (di as DirectoryInfo).EnumerateFiles())//Initialize fact collection(Files)
+                                i.Add(f);
+
+                            List<FileSystemInfo> im = new List<FileSystemInfo>();
+                            foreach (FileSystemInfo f in i)
+                            {
+                                im.Add(f);
+                            }
+
+
+                            foreach (FileSystemInfo f in i)//equals fact collection and collection
+                            {
+                                foreach (FileSystemInfo ff in id)
+                                {
+                                    if (f.FullName == ff.FullName)
+                                    {
+                                        im.Remove(f);
+                                        idm.Remove(ff);
+                                    }
+                                }
+                            }
+
+                            if (idm.Count != 0)
+                            {
+                                List<HierarchyDrive> dm = new List<HierarchyDrive>();
+                                foreach (HierarchyDrive hi in hh.DriveH)//Remove object
+                                {
+                                    foreach (FileSystemInfo s in idm)
+                                    {
+                                        if (hi.Drive.FullName == s.FullName)
+                                        {
+                                            dm.Add(hi);
+                                        }
+                                    }
+                                }
+                                foreach (HierarchyDrive h in dm)
+                                {
+                                    hh.DriveH.Remove(h);
+                                }
+                            }
+
+                            if (im.Count != 0)
+                            {
+                                foreach (FileSystemInfo s in im)//Add object
+                                {
+                                    hh.DriveH.Add(new HierarchyDrive(s));
+                                }
+                            }
+
+                            if (im.Count != 0 || idm.Count != 0)//Sort collection
+                            {
+                                List<HierarchyDrive> list1 = new List<HierarchyDrive>();
+                                List<HierarchyDrive> list2 = new List<HierarchyDrive>();
+                                foreach (HierarchyDrive hi in hh.DriveH)
+                                {
+                                    if (hi.Drive.GetType().FullName.Equals("System.IO.DirectoryInfo") ==true)
+                                    {
+                                        list1.Add(hi);
+                                    }
+
+                                    if (hi.Drive.GetType().FullName.Equals("System.IO.FileInfo") == true)
+                                    {
+                                        list2.Add(hi);
+                                    }
+                                }
+                                list1.Sort(Sort);//Sort directories for name
+                                list2.Sort(Sort);//Sort files for name
+                                hh.DriveH.Clear();
+
+                                foreach (HierarchyDrive h in list1)
+                                {
+                                    hh.DriveH.Add(h);
+                                }
+                                foreach (HierarchyDrive h in list2)
+                                    hh.DriveH.Add(h);
+                            }
+                        }
+                        else
+                        {
+                            hierm[hier.IndexOf(hh)].DriveH = SearchDirectoryInHier(hh.DriveH, dit, listm);//cause this method
+                        }
+                    }
+                }
+            }
+            return hierm;
+        }
+
+
+
+        public int Sort (HierarchyDrive a, HierarchyDrive b)//Sort HierarchyDrive for alphabet
+        {
+            return String.Compare(a.Drive.Name, b.Drive.Name);
         }
 
 

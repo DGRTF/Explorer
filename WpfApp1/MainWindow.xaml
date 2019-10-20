@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Opacity="0.9"
+        Title="MainWindow" Height="450" Width="800" Opacity="0.95"
         WindowStyle="None" AllowsTransparency="true" ResizeMode="CanResizeWithGrip">
     <!--<Window.CommandBindings>
         -->
@@ -15,6 +15,14 @@
         <CommandBinding Command="local:WinCommand.MinimizeWindow" Executed="MinWin" />
     </Window.CommandBindings>-->
     <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="ButHier">
+            <Border x:Name="buttonBorder" BorderBrush="Transparent" Background="DarkSlateGray" >
+                <ContentControl Content="{TemplateBinding Content}"
+                    Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+        </ControlTemplate>
         <ControlTemplate TargetType="Button" x:Key="But">
             <Border x:Name="buttonBorder" BorderBrush="Transparent" Background="DarkGray" >
                 <ContentControl Content="{TemplateBinding Content}"
@@ -106,10 +114,10 @@
                                 <ColumnDefinition MinWidth="200"/>
                             </Grid.ColumnDefinitions>
                             <Grid>
-                                <TreeView x:Name="treeView1" ItemsSource="{Binding Explorer.DriveHier}" >
+                                <TreeView BorderBrush="Transparent" Background="DarkSlateGray" ItemsSource="{Binding Explorer.DriveHier}" >
                                     <TreeView.ItemTemplate>
                                         <HierarchicalDataTemplate ItemsSource="{Binding Path=DriveH}">
-                                            <TextBlock Text="{Binding Drive.Name}" />
+                                            <Button  Background="DarkSlateGray" CommandParameter="{Binding Path=Drive}" Command="{Binding DataContext.Explorer.CollDirInCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource ButHier}" Content="{Binding Drive.Name}" />
                                         </HierarchicalDataTemplate>
                                     </TreeView.ItemTemplate>
                                 </TreeView>
@@ -119,7 +127,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel >
-                                            <Button Background="DarkGray" CommandParameter="{Binding}" Command="{Binding DataContext.Explorer.CollDirInCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource But}" FontSize="18" Content="{Binding Path=Name}" />
+                                            <Button Background="DarkGray" CommandParameter="{Binding}" Command="{Binding DataContext.Explorer.CollDirInCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource ButHier}" FontSize="18" Content="{Binding Path=Name}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
