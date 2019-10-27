@@ -114,8 +114,8 @@
                                 <ColumnDefinition MinWidth="200"/>
                             </Grid.ColumnDefinitions>
                             <Grid>
-                                <TreeView BorderBrush="Transparent" Background="DarkSlateGray" ItemsSource="{Binding Explorer.DriveHier}" >
-                                    <TreeView.ItemTemplate>
+                                <TreeView BorderBrush="Transparent" Background="DarkSlateGray"  ItemsSource="{Binding Explorer.DriveHier}" >
+                                    <TreeView.ItemTemplate >
                                         <HierarchicalDataTemplate ItemsSource="{Binding Path=DriveH}">
                                             <Button  Background="DarkSlateGray" CommandParameter="{Binding Path=Drive}" Command="{Binding DataContext.Explorer.CollDirInCurDir,  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Template="{StaticResource ButHier}" Content="{Binding Drive.Name}" />
                                         </HierarchicalDataTemplate>

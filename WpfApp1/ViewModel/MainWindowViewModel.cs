@@ -18,8 +18,9 @@ namespace WpfApp1
 
         public MainWindowViewModel(MainWindow window, ExplorerViewModel exp)       //Add object main window
         {
-            mainWindow = window;
-            Explorer = exp;       //
+            MainWindow = window;
+            Explorer = exp;   //
+            MainWindow.Explorer = exp;
         }
 
 
@@ -28,7 +29,7 @@ namespace WpfApp1
 
 
 
-        private MainWindow mainWindow { get; }       //Object main window
+        private MainWindow MainWindow { get; }       //Object main window
 
 
 
@@ -39,10 +40,10 @@ namespace WpfApp1
             {
                 return addCommand = new MainWindowCommand(obj =>
                 {
-                    if (mainWindow.WindowState == WindowState.Normal)
-                        mainWindow.WindowState = WindowState.Maximized;
+                    if (MainWindow.WindowState == WindowState.Normal)
+                        MainWindow.WindowState = WindowState.Maximized;
                     else
-                        mainWindow.WindowState = WindowState.Normal;
+                        MainWindow.WindowState = WindowState.Normal;
                 });
             }
         }
@@ -55,7 +56,7 @@ namespace WpfApp1
             {
                 return addCommand = new MainWindowCommand(obj =>
                 {
-                    mainWindow.WindowState = WindowState.Minimized;
+                    MainWindow.WindowState = WindowState.Minimized;
                 });
             }
         }
@@ -70,7 +71,7 @@ namespace WpfApp1
                 return addCommand ??
                   (addCommand = new MainWindowCommand(obj =>
                   {
-                      mainWindow.Close();
+                      MainWindow.Close();
                   }));
             }
         }

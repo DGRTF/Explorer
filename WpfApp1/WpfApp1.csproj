@@ -78,6 +78,7 @@
     <Compile Include="Model\Namespace Explorer\Explorer.cs" />
     <Compile Include="Model\Namespace Explorer\FastSortCompare.cs" />
     <Compile Include="Model\Hierarchy.cs" />
+    <Compile Include="ViewModel\SearchDirectory.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

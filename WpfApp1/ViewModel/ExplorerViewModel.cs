@@ -6,9 +6,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfApp1.Hierarchy;
 
 namespace WpfApp1
@@ -22,6 +24,10 @@ namespace WpfApp1
 
 
         //Properties and field:
+
+
+
+        public MainWindow Window { get; }
 
 
 
@@ -242,18 +248,24 @@ namespace WpfApp1
 
 
 
-        private void InitHierarchy()
+        private void InitHierarchy()//Initialize Hierarchy collection
         {
             SearchDriver search = new SearchDriver();
+            ObservableCollection < HierarchyDrive > i = new ObservableCollection<HierarchyDrive>();
             try
             {
                 foreach (DirectoryInfo d in search.SearchParrentDirectory())
-                    DriveHier.Add(new HierarchyDrive(d));
+                    i.Add(new HierarchyDrive(d));
             }
             catch
             {
 
             }
+            Window.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
+                {
+                    foreach (HierarchyDrive h in i)
+                        DriveHier.Add(h);
+                });
         }
 
 
@@ -374,7 +386,7 @@ namespace WpfApp1
                                 List<HierarchyDrive> list2 = new List<HierarchyDrive>();
                                 foreach (HierarchyDrive hi in hh.DriveH)
                                 {
-                                    if (hi.Drive.GetType().FullName.Equals("System.IO.DirectoryInfo") ==true)
+                                    if (hi.Drive.GetType().FullName.Equals("System.IO.DirectoryInfo") == true)
                                     {
                                         list1.Add(hi);
                                     }
@@ -408,7 +420,7 @@ namespace WpfApp1
 
 
 
-        public int Sort (HierarchyDrive a, HierarchyDrive b)//Sort HierarchyDrive for alphabet
+        public int Sort(HierarchyDrive a, HierarchyDrive b)//Sort HierarchyDrive for alphabet
         {
             return String.Compare(a.Drive.Name, b.Drive.Name);
         }
@@ -416,10 +428,12 @@ namespace WpfApp1
 
 
         //Construcrors:
-        public ExplorerViewModel()
+        public ExplorerViewModel(MainWindow window)
         {
+            Window = window;
             Initialize();
-            InitHierarchy();
+            Thread threadHier = new Thread(InitHierarchy);
+            threadHier.Start();
         }
 
 
